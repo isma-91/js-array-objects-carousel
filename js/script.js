@@ -51,12 +51,18 @@ const images = [
 for (let i = 0; i < images.length; i++) {
   // eleSlider.innerHTML += generateImgs(images[i]);
   const eleImg = document.createElement("img");
-  eleImg.src = `img/${images.image}`;
+  eleImg.src = `'img/${images.image[i]}'`;
   eleImg.classList.add("slider-img");
   if (i === 0) {
     eleImg.classList.add("active");
   }
   eleSlider.append(eleImg);
 
-  // creare i tag immagine che vanno nella sezione .thumbs
+  const eleThumb = document.createElement("img");
+  // eleThumb.src = ???
+  eleThumb.classList.add("thumb-img");
+  if (i === 0) {
+    eleThumb.classList.add("active");
+  }
+  eleSliderThumbs.append(eleThumb);
 }
