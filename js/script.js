@@ -3,6 +3,8 @@ const eleSlider = document.querySelector(".slider");
 const eleThumbs = document.querySelector(".thumbs");
 const eleArrDn = document.querySelector(".arrow-down");
 const eleArrUp = document.querySelector(".arrow-up");
+const eleBtnStop = document.querySelector(".stop");
+const eleBtnInvert = document.querySelector(".invert");
 const images = [
   {
     image: "01.webp",
@@ -55,13 +57,28 @@ const images = [
 
 // images.forEach((objImg) => (eleSlider.innerHTML += generateImgs(objImg)));
 
+//ciclo per creare e appendere tutti gli elementi nell HTML
 for (let i = 0; i < images.length; i++) {
   // eleSlider.innerHTML += generateImgs(images[i], i);
   const eleImg = document.createElement("img");
   eleImg.src = `img/${images[i].image}`;
   eleImg.classList.add("slider-img");
+
+  const eleInfo = document.createElement("div");
+  eleInfo.classList.add("info");
+
+  const eleTitle = document.createElement("h2");
+  eleTitle.innerHTML = images[i].title;
+
+  const eleP = document.createElement("p");
+  eleP.innerHTML = images[i].text;
+  eleSlider.append(eleInfo);
+  eleInfo.append(eleTitle);
+  eleInfo.append(eleP);
+
   if (i === 0) {
     eleImg.classList.add("active");
+    eleInfo.classList.add("active");
   }
   eleSlider.append(eleImg);
 
@@ -73,3 +90,123 @@ for (let i = 0; i < images.length; i++) {
   }
   eleThumbs.append(eleThumb);
 }
+
+//Creare simil Array per selezionare TUTTI gli elementi con quella classe in modo da selezionarli con la crescita o diminuzione dell'indice
+const listImgs = document.querySelectorAll(".slider-img");
+const listThumbs = document.querySelectorAll(".thumb-img");
+const listInfo = document.querySelectorAll(".info");
+
+//impostiamo il ciclo alla pressione del bottone
+let index = 0; // indice che ci serve per selezionare l'immagine da rendere attiva
+eleArrDn.addEventListener("click", function () {
+  listImgs[index].classList.remove("active");
+  listThumbs[index].classList.remove("active");
+  listInfo[index].classList.remove("active");
+
+  index++;
+  if (index === listImgs.length) {
+    index = 0;
+  }
+
+  listImgs[index].classList.add("active");
+  listThumbs[index].classList.add("active");
+  listInfo[index].classList.add("active");
+});
+
+eleArrUp.addEventListener("click", function () {
+  listImgs[index].classList.remove("active");
+  listThumbs[index].classList.remove("active");
+  listInfo[index].classList.remove("active");
+
+  if (index === 0) {
+    index = listImgs.length;
+  }
+  index--;
+
+  listImgs[index].classList.add("active");
+  listThumbs[index].classList.add("active");
+  listInfo[index].classList.add("active");
+});
+
+//impostiamo l'autoplay
+let changeInterval = setInterval(() => {
+  listImgs[index].classList.remove("active");
+  listThumbs[index].classList.remove("active");
+  listInfo[index].classList.remove("active");
+
+  index++;
+  if (index === listImgs.length) {
+    index = 0;
+  }
+
+  listImgs[index].classList.add("active");
+  listThumbs[index].classList.add("active");
+  listInfo[index].classList.add("active");
+}, 3000);
+
+//creare l'evento per stoppare e far ripartire l'autoplay
+eleBtnStop.addEventListener("click", function () {
+  if (changeInterval != null) {
+    clearInterval(changeInterval);
+    eleBtnStop.innerHTML = "Avvia Autoscorrimento";
+    changeInterval = null;
+  } else if (changeInterval === null) {
+    changeInterval = setInterval(() => {
+      listImgs[index].classList.remove("active");
+      listThumbs[index].classList.remove("active");
+      listInfo[index].classList.remove("active");
+
+      index++;
+      if (index === listImgs.length) {
+        index = 0;
+      }
+
+      listImgs[index].classList.add("active");
+      listThumbs[index].classList.add("active");
+      listInfo[index].classList.add("active");
+    }, 3000);
+    eleBtnStop.innerHTML = "Ferma Autoscorrimento";
+  }
+});
+
+//Invertiamo l'ordine di scorrimento
+let isClicked = false; //variabile che cambia quando clickiamo il bottone
+eleBtnInvert.addEventListener("click", () => {
+  if (isClicked == false) {
+    isClicked = true;
+    clearInterval(changeInterval);
+    changeInterval = setInterval(() => {
+      listImgs[index].classList.remove("active");
+      listThumbs[index].classList.remove("active");
+      listInfo[index].classList.remove("active");
+
+      if (index === 0) {
+        index = listImgs.length;
+      }
+      index--;
+
+      listImgs[index].classList.add("active");
+      listThumbs[index].classList.add("active");
+      listInfo[index].classList.add("active");
+    }, 3000);
+  } else {
+    isClicked = false;
+    clearInterval(changeInterval);
+    changeInterval = setInterval(() => {
+      listImgs[index].classList.remove("active");
+      listThumbs[index].classList.remove("active");
+      listInfo[index].classList.remove("active");
+
+      index++;
+      if (index === listImgs.length) {
+        index = 0;
+      }
+
+      listImgs[index].classList.add("active");
+      listThumbs[index].classList.add("active");
+      listInfo[index].classList.add("active");
+    }, 3000);
+  }
+});
+
+// clearInterval(changeInterval));
