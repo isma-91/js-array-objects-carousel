@@ -31,9 +31,15 @@ const images = [
   },
 ];
 
-// function generateImgs(obj) {
+// function generateImgs(obj, i) {
+//   let className;
+//   if (i === 0) {
+//     className = "active slider-img";
+//   } else {
+//     className = "slider-img";
+//   }
 //   return `
-// 				<img src="img/${obj.image}" alt="${obj.title}" class="slider-img">
+// 				<img src="img/${obj.image}" alt="${obj.title}" class="${className}">
 // 				<div class="info" >
 //         <h2>${obj.title}</h2>
 // 				<p>${obj.text}</p>
@@ -46,12 +52,13 @@ const images = [
 // 				<img src="img/${obj.image}" alt="${obj.title}" class="thumb-img">
 // 		`;
 // }
+
 // images.forEach((objImg) => (eleSlider.innerHTML += generateImgs(objImg)));
 
 for (let i = 0; i < images.length; i++) {
-  // eleSlider.innerHTML += generateImgs(images[i]);
+  // eleSlider.innerHTML += generateImgs(images[i], i);
   const eleImg = document.createElement("img");
-  eleImg.src = `'img/${images.image[i]}'`;
+  eleImg.src = `img/${images[i].image}`;
   eleImg.classList.add("slider-img");
   if (i === 0) {
     eleImg.classList.add("active");
@@ -59,10 +66,10 @@ for (let i = 0; i < images.length; i++) {
   eleSlider.append(eleImg);
 
   const eleThumb = document.createElement("img");
-  // eleThumb.src = ???
+  eleThumb.src = `img/${images[i].image}`;
   eleThumb.classList.add("thumb-img");
   if (i === 0) {
     eleThumb.classList.add("active");
   }
-  eleSliderThumbs.append(eleThumb);
+  eleThumbs.append(eleThumb);
 }
