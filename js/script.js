@@ -169,10 +169,10 @@ eleBtnStop.addEventListener("click", function () {
   }
 });
 
-//Invertiamo l'ordine di scorrimento
+//Invertiamo l'ordine di scorrimento con controllo che il setInterval sia già partito con &&
 let isClicked = false; //variabile che cambia quando clickiamo il bottone
 eleBtnInvert.addEventListener("click", () => {
-  if (isClicked == false) {
+  if (isClicked == false && changeInterval != null) {
     isClicked = true;
     clearInterval(changeInterval);
     changeInterval = setInterval(() => {
@@ -189,7 +189,7 @@ eleBtnInvert.addEventListener("click", () => {
       listThumbs[index].classList.add("active");
       listInfo[index].classList.add("active");
     }, 3000);
-  } else {
+  } else if (isClicked == true && changeInterval != null) {
     isClicked = false;
     clearInterval(changeInterval);
     changeInterval = setInterval(() => {
